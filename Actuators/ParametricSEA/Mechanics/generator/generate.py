@@ -29,18 +29,18 @@ from partList import *
 def assemble():
 	return union()(
 		(rotate(90,[1,0,0])(translate([0,80,0])(printedSpring()))),
-#		ESC40W(),
-#		translate([0,0, 20])(A2212()),
-#		(rotate(90,[0,0,1]))(rotate(90,[1,0,0])(translate([0,80,-15])(SEAbracketSide()))),
-#		(rotate(90,[0,0,1]))(rotate(90,[-1,0,0])(translate([0,-80,-15])(SEAbracketSide()))),
-#		translate([0,0, 22])(ShaftAdapter3_17to4mm()),
-#		translate([0,0,24])(screwRodm4(200)),
-#		(translate([0,0, 140])(SEAtopCap())),
-#		translate([0,0, -10])(A2212Attachment()),
-#		translate([-15,10,0])(linearRod4mm()),
-#		translate([-15,-10,65])(linearRod4mm()),
-#		translate([15,10,65])(linearRod4mm()),
-#		translate([15,-10,0])(linearRod4mm()),
+		ESC40W(),
+		translate([0,0, 20])(A2212()),
+		(rotate(90,[0,0,1]))(rotate(90,[1,0,0])(translate([0,80,-15])(SEAbracketSide()))),
+		(rotate(90,[0,0,1]))(rotate(90,[-1,0,0])(translate([0,-80,-15])(SEAbracketSide()))),
+		translate([0,0, 22])(ShaftAdapter3_17to4mm()),
+		translate([0,0,24])(screwRodm4(200)),
+		(translate([0,0, 140])(SEAtopCap())),
+		translate([0,0, -10])(A2212Attachment()),
+		translate([-15,10,0])(linearRod4mm()),
+		translate([-15,-10,65])(linearRod4mm()),
+		translate([15,10,65])(linearRod4mm()),
+		translate([15,-10,0])(linearRod4mm()),
 	)
 
 if __name__ == '__main__':
