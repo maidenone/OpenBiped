@@ -35,7 +35,7 @@ if __name__ == '__main__':
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
-		os.system("openscad --preview --camera=0,0,0,"+str(i)+","+str(0)+","+str(i)+",500 --imgsize=512,512 SEA.scad  -o SEA.png")
+		os.system("openscad --preview --camera=0,0,0,"+str(i)+","+str(0)+","+str(i)+",800 --imgsize=512,512 SEA.scad  -o SEA.png")
 		image = pygame.image.load("SEA.png")
 		screen.blit(image,(0,0))
 		pygame.display.flip()
