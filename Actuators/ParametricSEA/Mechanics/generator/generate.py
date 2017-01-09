@@ -10,49 +10,56 @@ from partList import *
 
 use_3dp_spring = False
 
-spring = None
 
+#SLED_POS = -26 
+SLED_POS = 0
+#SLED_POS = 30
 
 # select parts for 3drinted spring or for "steel springs"
+spring = None
 if use_3dp_spring:
 	spring = printedSpring(),
 else:
 	spring = union()(
 			SpringHolderShellMiddleNut(),
 			SpringHolderShell(),
-			translate([0,-5,0])((rotate(a=90,v=[1,0,0]))(extrude_example())),
-			translate([0,5,0])((rotate(a=90,v=[-1,0,0]))(extrude_example())),
+			translate([0,-5,0])((rotate(a=90,v=[1,0,0]))(color(Black))(springGenerator())),
+			translate([0,5,0])((rotate(a=90,v=[-1,0,0]))(color(Black))(springGenerator())),
 		)
 
 def assemble():
 	return union()(
 		# spring selected according to config
-		spring,
+		(translate([0,-1*SLED_POS,0]))(spring),
+		#translate([0,-1.5,0])((rotate(90,[-1,0,0]))(color(Stainless)(nut('m4')))),
 
 		# common parts
-		(rotate(180,[0.5,0,0.5])(translate([0,0,-15])(SEAbracketSide()))),
-		(rotate(180,[-0.5,0,0.5])(translate([0,0,-15])(SEAbracketSide()))),
-		translate([0,-100,0])((rotate(a=90,v=[-1,0,0]))(screwRodm4(200))),
+		(rotate(180,[0.5,0,0.5])(translate([0,SLED_POS+0,-16])(SEAbracketSide()))),
+		(rotate(180,[-0.5,0,0.5])(translate([0,SLED_POS+0,-16])(SEAbracketSide()))),
+		translate([0,-60,0])((rotate(a=90,v=[-1,0,0]))(screwRod(120))),
 		
+		#translate([-10,10,0])((rotate(180,[-0.5,0,0.5]))(color(Stainless)(screw('m4',10)))),
+		#translate([-11,10,0])((rotate(180,[-0.5,0,0.5]))(color(Stainless)(nut('m4')))),
+		
+		#translate([-10,-10,0])((rotate(180,[-0.5,0,0.5]))(color(Stainless)(screw('m4',10)))),
+		#translate([-11,-10,0])((rotate(180,[-0.5,0,0.5]))(color(Stainless)(nut('m4')))),
+
 		# Motor assembly
-		(rotate(90,[1,0,0]))(translate([0,0, -110])(A2212())),
-		(rotate(90,[1,0,0]))(translate([0,0, -105])(ShaftAdapter3_17to4mm())),
-		(rotate(90,[1,0,0]))(translate([0,0, -140])(A2212Attachment())),
-		
+		(rotate(90,[1,0,0]))(translate([0,0, -70])(A2212())),
+		(rotate(90,[1,0,0]))(translate([0,0, -65])(ShaftAdapter3_17to4mm())),
+		(rotate(90,[-1,0,0]))(translate([0,0,-146-SLED_POS])(A2212Attachment())),
+		(rotate(90,[1,0,0]))(translate([0,0, -100])(A2212Attachment())),
+		(rotate(90,[-1,0,0]))(translate([0,0, -60])(A2212Attachment())),
+		(translate([0,-156-SLED_POS,])(Puller())),
 		# rails back
-		(rotate(90,[1,0,0]))(translate([15,-10,-140])(screwRodm4(250))),
-		(rotate(90,[1,0,0]))(translate([-15,10,-140])(screwRodm4(250))),
+		(rotate(90,[1,0,0]))(translate([16,-10,-98])(linearRod(160))),
+		(rotate(90,[1,0,0]))(translate([-16,10,-98])(linearRod(160))),
 
 		# rails front
-		(rotate(90,[1,0,0]))(translate([15,10,-15])(screwRodm4(250))),
-		(rotate(90,[1,0,0]))(translate([-15,-10,-15])(screwRodm4(250))),
-
-		(rotate(90,[1,0,0]))((translate([0,0, 100])(SEAtopCap()))),
-		#translate([-15,10,0])(linearRod4mm()),
-		#translate([-15,-10,65])(linearRod4mm()),
-		#translate([15,10,65])(linearRod4mm()),
-		#translate([15,-10,0])(linearRod4mm()),
+		(rotate(90,[1,0,0]))(translate([16,10,-15+SLED_POS])(linearRod(160))),
+		(rotate(90,[1,0,0]))(translate([-16,-10,-15+SLED_POS])(linearRod(160))),
 		
+		#(rotate(32,[0,-1,0]))((rotate(90,[-1,0,0]))(translate([0,0,-140])(TopPusher()))),
 		#JUST FOR BOM, NO MODEL YET
 		ESC40W(),
 	)
