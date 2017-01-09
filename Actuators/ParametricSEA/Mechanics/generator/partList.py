@@ -186,6 +186,23 @@ def ShaftAdapter3_17to4mm():
 
 	return part
 
+
+@bom_part("TopPusher",price=0.2,print_time=32)
+def TopPusher():
+	m4HolePin = cylinder(h=30,r=2)
+	m4HolePin.add_param('$fs', 1)
+	distance = sqrt(pow(20,2)+pow(30,2))
+	body = cube((distance+8,8,30),True)
+
+
+	body = difference()(
+		body,
+		(translate([-distance/2.0,0, -2]))(m4HolePin),
+		translate([distance/2.0,0, -2])(m4HolePin),
+		(translate([0,10,-8]))(rotate(a=90,v=[1,0,0])(m4HolePin)),
+	)
+	return body
+
 @bom_part("A2212 Attachment",price=0.2,print_time=32)
 def A2212Attachment():
 	
