@@ -1,22 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Basic shape with several repeated parts, demonstrating the use of
-# solid.utils.bill_of_materials()
-#
-# Basically:
-#   -- Define every part you want in the Bill of Materials in a function
-#   -- Use the 'bom_part' decorator ahead of the definition of each part's function
-#           e.g.:
-# @bom_part()
-# def my_part():
-#     pass
-#   -- Optionally, you can add a description and a per-unit cost to the
-#       decorator invocations.
-#
-#   -- To generate the bill of materials, call solid.utils.bill_of_materials()
-#
-#       -ETJ 08 Mar 2011
 
 import os
 import sys
