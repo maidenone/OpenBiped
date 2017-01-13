@@ -2,12 +2,6 @@ from solid import *
 from solid.utils import *  # Not required, but the utils module is useful
 
 #configuration
-#head_rad = 2.65
-#head_height = 2.8
-#nut_height = 2.3
-#nut_rad = 3
-#m3_rad = 1.4
-
 LINEAR_ROD_CLEARANCE = 0.4
 LINEAR_ROD_R = 2
 LINEAR_ROD_WITH_CLEARANCE_R = LINEAR_ROD_R + LINEAR_ROD_CLEARANCE/2.0
@@ -16,16 +10,13 @@ LINEAR_ROD_LENGTH = 100
 SCREW_CLEARANCE = 0.4
 SCREW_ROD_R = 2
 SCREW_ROD_WITH_CLEARANCE_R = SCREW_ROD_R + SCREW_CLEARANCE/2.0
-
 NUT_CLEARANCE = 0.6
 NUT_S = 7 + NUT_CLEARANCE
 NUT_M = 3.2 + NUT_CLEARANCE
 NUT_D = 4 + NUT_CLEARANCE
 
 SPRING_R = 17/2.0
-SPRING_H = 32 - 10
-
-
+SPRING_H = 32 - 0
 
 A2212_dia = 27.7
 
@@ -71,63 +62,6 @@ def Puller():
 		translate([0,5,0])(rotate(90,[0,0,1])(nutHole)),
 	)
 	return color([1,0,0, 1])(holder)
-
-
-
-def helix(rad=10, length=20,pitch=0.2,flatEnd=True):
-    outline = []
-    z = 0.0
-    segmentsPerTurn=140.0
-
-    #for i in range(segments):
-    #    angle = i * 360*10 / segments
-    i = 0
-    startAngleAtEnd = 0.0
-
-    while z <= length:
-        angle = i*360*10/segmentsPerTurn
-        x = rad * cos(radians(angle))
-        y = rad * sin(radians(angle))
-
-        if flatEnd:
-            if  angle > 180: # this makes start of helix flat
-                if z + pitch >= length and startAngleAtEnd == 0:
-                     startAngleAtEnd = angle
-                if startAngleAtEnd != 0: # this makes end of helix flat
-                     if startAngleAtEnd + 180 <= angle: 
-                         break
-                else:
-                    z = z + pitch
-        else:
-             z = z + pitch
-        outline.append(Point3(x, y, z))
-        i+=1
-    return outline
-
-
-def circleShape(num_points=5, outer_rad=1.0):
-    circle_pts = []
-    for i in range(2 * num_points):
-        rad = outer_rad
-        angle = radians(360 / (2 * num_points) * i)
-        circle_pts.append(Point3(rad * cos(angle), rad * sin(angle), 0))
-    return circle_pts
-
-
-def springGenerator(length=SPRING_H-2,filament=1,pitch=0.4,radie=7.5,pointsInCircle =5):
-
-    # Note the incorrect triangulation at the two ends of the path.  This
-    # is because circle isn't convex, and the triangulation algorithm for
-    # the two end caps only works for convex shapes.
-    shape = circleShape(num_points=5,outer_rad = filament)
-    path = helix(rad=radie,length=length-filament*2,pitch=pitch)
-
-    # If scale_factors aren't included, they'll default to
-    # no scaling at each step along path.  Here, let's
-    # make the shape twice as big at beginning and end of the path
-    extruded = extrude_along_path(shape_pts=shape, path_pts=path)
-
-    return extruded
 
 @bom_part("SpringHolderShell")
 def SpringHolderShell():
@@ -280,6 +214,12 @@ def A2212Attachment():
 	attachment = difference()(
 						attachment,
 						translate([0,0, 2])(motorInner),
+
+						translate([8,8, -1])(pinHolderInner),
+						translate([8,-8, -1])(pinHolderInner),
+						translate([-8,8, -1])(pinHolderInner),
+						translate([-8,-8, -1])(pinHolderInner),
+
 						translate([-16,-10, 2])(pinHolderInner),
 						translate([-16,10, 2])(pinHolderInner),
 						translate([16,-10, 2])(pinHolderInner),
